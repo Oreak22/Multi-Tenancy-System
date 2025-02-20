@@ -8,17 +8,12 @@ const spaceDetail = async (id: string | any): Promise<any> => {
 		const user = JSON.parse(userData);
 		if (!user) throw new Error("Invalid user data format");
         
-        console.log('works')
-		const url = `http://localhost:3001/api/user/${user.userId}/tenant/${user.tenantId}`;
+		const url = `http://localhost:3001/user/user/${user.userId}/tenant/${user.spaceId}/token/${user.token}`;
+        console.log(url)
 		const response = await axios.get(url);
         console.log(response.data);
 
-		// if (!response) {
-		// 	throw new Error(`API request failed with status ${response.status}`);
-		// }
-
-		// const data = await response.json();
-		// return data;
+		return response.data.data;
 	} catch (error) {
 		console.error("Error fetching space details:", error);
 		throw error;
