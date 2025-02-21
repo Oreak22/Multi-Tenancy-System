@@ -7,27 +7,37 @@ interface User {
 	name: string;
 	email: string;
 	status: string;
+	role: string;
 }
 const EditUser = () => {
 	const [users, setUsers] = useState<User[]>([]);
-	useEffect(() => {
-		const fetchUser = async () => {
-			try {
-				const usersData = await fetchUsers();
-				console.log(usersData.users);
+	const [loading, setLoading] = useState(false);
+	const fetchUser = async () => {
+		setLoading(true);
+		try {
+			const usersData = await fetchUsers();
+			console.log(usersData.users);
 
-				if (!usersData || usersData.length === 0) {
-					alert("No user found");
-					return;
-				}
-
-				setUsers(usersData.users);
-			} catch (error) {
-				console.error("Error fetching users:", error);
-				alert("Failed to fetch users");
+			if (!usersData || usersData.length === 0) {
+				alert("No user found");
+				return;
 			}
-		};
-		fetchUser();
+
+			setUsers(usersData.users);
+		} catch (error) {
+			console.error("Error fetching users:", error);
+			alert("Failed to fetch users");
+		} finally {
+			setLoading(false);
+		}
+	};
+	useEffect(() => {
+		try {
+			
+			fetchUser();
+		} catch (err) {
+			console.log(err);
+		}
 	}, []);
 	if (users === null)
 		return (
@@ -55,14 +65,21 @@ const EditUser = () => {
 					</div>
 					<div className='mt-4 md:mt-0 flex gap-4 justify-between align-center'>
 						<p>
-							<button className='p-2 bg-gray-500 text-white rounded-sm'>
+							<button
+								className={`p-2 bg-gray-500 text-white rounded-sm disabled:cursor-not-allowed disabled:bg-gray-200`}
+								disabled={user.role == "admin" && true}
+							>
 								Disactivate
 							</button>
 						</p>
 						<p>
 							<button
-								className='p-2 bg-red-500 text-white rounded-md'
-								onClick={() => deleteUser({ id: user.id })}
+								className={`p-2 bg-red-500 text-white rounded-md disabled:cursor-not-allowed disabled:bg-red-200`}
+								disabled={(user.role == "admin" && true) || loading}
+								onClick={async () => {
+									await deleteUser({ id: user.id });
+									fetchUser();
+								}}
 							>
 								Delete
 							</button>

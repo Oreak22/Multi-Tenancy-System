@@ -65,21 +65,13 @@ const Dashboard = () => {
 											>
 												Edit Users
 											</li>
-											<li
-												className='px-4 py-2 cursor-pointer rounded-sm border-2 border-red-500'
-												onClick={() => setAction("delete")}
-											>
-												Delete Space
-											</li>
+											
 										</ul>
 										<div className='mt-5'>
 											{action === "create" ? (
 												<CreateUser />
-											) : action === "edit" ? (
-												<EditUser />
 											) : (
-												""
-												// <DeleteUser />
+												action === "edit" && <EditUser />
 											)}
 										</div>
 									</div>
