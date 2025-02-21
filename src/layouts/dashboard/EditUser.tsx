@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
 import fetchUsers from "../../utils/apiCalls/fetchUser";
+import deleteUser from "../../utils/apiCalls/delete";
 
+interface User {
+	id: string;
+	name: string;
+	email: string;
+	status: string;
+}
 const EditUser = () => {
-	const [users, setUsers] = useState(null);
+	const [users, setUsers] = useState<User[]>([]);
 	useEffect(() => {
 		const fetchUser = async () => {
 			try {
-				const usersData = await fetchUsers(); // Await the async function
+				const usersData = await fetchUsers();
 				console.log(usersData.users);
 
 				if (!usersData || usersData.length === 0) {
@@ -36,9 +43,15 @@ const EditUser = () => {
 					className='md:flex gap-4 justify-evenly md:justify-between align-center border-b-2 p-2'
 				>
 					<div className='flex w-100 md:w-[65%] gap-4 justify-between align-center'>
-						<h1 className='w-[20%] md:w-[40%]  overflow-x-hidden'>{user.name}</h1>
-						<h1 className='w-[20%] md:w-[40%] overflow-x-hidden'>{user.email}</h1>
-						<h1 className='w-[20%] md:w-[20%] overflow-x-hidden'>{user.status}</h1>
+						<h1 className='w-[20%] md:w-[40%]  overflow-x-hidden'>
+							{user.name}
+						</h1>
+						<h1 className='w-[20%] md:w-[40%] overflow-x-hidden'>
+							{user.email}
+						</h1>
+						<h1 className='w-[20%] md:w-[20%] overflow-x-hidden'>
+							{user.status}
+						</h1>
 					</div>
 					<div className='mt-4 md:mt-0 flex gap-4 justify-between align-center'>
 						<p>
@@ -47,7 +60,10 @@ const EditUser = () => {
 							</button>
 						</p>
 						<p>
-							<button className='p-2 bg-red-500 text-white rounded-md'>
+							<button
+								className='p-2 bg-red-500 text-white rounded-md'
+								onClick={() => deleteUser({ id: user.id })}
+							>
 								Delete
 							</button>
 						</p>

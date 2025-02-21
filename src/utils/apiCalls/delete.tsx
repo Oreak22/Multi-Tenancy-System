@@ -1,10 +1,8 @@
 import axios from "axios";
 
-interface deleteProps {
-	id: String;
-}
 
-const deleteUser = async ({ id }: deleteProps): Promise<any> => {
+
+const deleteUser = async ({ id }: { id: string })=> {
 	try {
 		const data = await localStorage.getItem("multiten");
 		if (!data) return;
