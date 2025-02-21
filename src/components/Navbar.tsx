@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 
 interface UserCache {
@@ -9,7 +8,6 @@ interface UserCache {
 }
 
 const Navbar = () => {
-	const [show, setShow] = useState(false);
 	const [cache, setCache] = useState<UserCache | null>(null);
 	const navigate = useNavigate();
 

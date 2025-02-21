@@ -15,7 +15,7 @@ const Dashboard = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await spaceDetail(id);
+				const response = await spaceDetail();
 				setData(response);
 			} catch (err) {
 				setError("Error fetching data");

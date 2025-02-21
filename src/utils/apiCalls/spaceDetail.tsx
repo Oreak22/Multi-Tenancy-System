@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const spaceDetail = async (id: string | any): Promise<any> => {
+const spaceDetail = async (): Promise<any> => {
 	try {
         const userData = localStorage.getItem("multiten");
 		if (!userData) throw new Error("No user data found in localStorage");
